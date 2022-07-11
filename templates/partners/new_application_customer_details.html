@@ -1,0 +1,359 @@
+{% if request.user.is_authenticated %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport">
+    <title>Aplikimi per Kredi</title>
+    <link href="{% static 'assets/img/favicon.png' %}" rel="shortcut icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatables/datatables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a class="logo" href="#">
+                    <img alt="Logo" src="https://noa-hub.com/">
+                </a>
+                <a class="logo logo-small" href="#">
+                    <img alt="Logo" height="30" src="https://noa-hub.com/" width="30">
+                </a>
+            </div>
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fas fa-align-left"></i>
+            </a>
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="nav user-menu">
+                <li class="nav-item dropdown noti-dropdown">
+                    <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-pill">3</span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Njoftime</span>
+                            <a class="clear-noti" href="javascript:void(0)"> Fshi të gjitha </a>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="#">Shiko të gjitha njoftimet</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">
+                        <span class="user-img">
+                            <img alt="Ryan Taylor" class="rounded-circle"
+                                src="{% static 'assets/img/profiles/user_profile.webp' %}" width="31">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img alt="User Image" class="avatar-img rounded-circle"
+                                    src="{% static 'assets/img/profiles/user_profile.webp' %}">
+                            </div>
+                            <div class="user-text">
+                                <h6>{{user.first_name}}</h6>
+                                <p class="text-muted mb-0">Partner</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
+                        <a class="dropdown-item" href="#">Njoftime</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div class="sidebar-menu" id="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span style="text-transform: uppercase">Menuja Kryesore</span>
+                        </li>
+                        <li>
+                            <a href="{% url 'partner' %}">
+                                <i class="fas fa-home"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="menu-title">
+                            <span style="text-transform: uppercase">Partner</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#">
+                                <i class="fas fa-school"></i>
+                                <span>Klientët</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'customers-list' %}">Lista e klientëve</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="page-title">Aplikim për Kredi</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'customers-list' %}">Klientët</a></li>
+                                <li class="breadcrumb-item active">Krijo Aplikim të ri</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{% url 'new-application' %}" method="POST" enctype="multipart/form-data">
+                                    {% include 'includes/alert.html' %}
+                                    {% csrf_token %}
+                                    <div class="card-body">
+                                        <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                                            <li class="nav-item"><a class="nav-link active"
+                                                    href="#bottom-justified-tab1" data-bs-toggle="tab">Te dhenat e
+                                                    Klientit</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab2"
+                                                    data-bs-toggle="tab">Prelead</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab3"
+                                                    data-bs-toggle="tab">Llogaritesi</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane show active" id="bottom-justified-tab1">
+
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h5 class="form-title"><span>Detaje të Klientit</span></h5>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Emri</label>
+                                                            <input id="your_name" class="form-control" type="text"
+                                                                placeholder="emri i klientit..." name="first_name"
+                                                                maxlength="60" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Mbiemri</label>
+                                                            <input id="your_surname" class="form-control" type="text"
+                                                                placeholder="mbiemri i klientit..." name="last_name"
+                                                                maxlength="40" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Nr. ID</label>
+                                                            <input id="your_id" class="form-control" type="text"
+                                                                placeholder="id-ja e klientit..." name="personal_id"
+                                                                maxlength="10" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Datelindja</label>
+                                                            <input id="your_birthdate" class="form-control" type="date"
+                                                                placeholder="datelindja e klientit..." name="birthdate"
+                                                                required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Nr. tel</label>
+                                                            <input id="your_number" class="form-control" type="text"
+                                                                placeholder="numri i klientit..." name="mobile"
+                                                                maxlength="14" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Ngarko ID-ne</label>
+                                                            <input class="btn" class="form-control" type="file"
+                                                                name="id_card_doc" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <a href="Klauzola/klauzola.docx" download="klauzola">
+                                                                <b> Shkarko Klauzolen </b>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Ngarko klauzolen</label>
+                                                            <input class="btn" class="form-control" type="file"
+                                                                name="klauzole_doc"
+                                                                accept=".doc, .docx, .pdf, .txt, .jpg, .jpeg"
+                                                                required />
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12" align="right">
+                                                            <a class="btn btn-primary"
+                                                                href="bottom-justified-tab2">Vazhdo Aplikimin</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="bottom-justified-tab2">
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h5 class="form-title"><span>Detaje të Aplikimit</span></h5>
+                                                    </div>
+
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Shitesi</label>
+                                                            <input id="your_seller" class="form-control" type="text"
+                                                                placeholder="emri i shitesit..." name="seller_name"
+                                                                maxlength="60" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Nr. Shitesi</label>
+                                                            <input id="your_seller_number" class="form-control"
+                                                                type="text" placeholder="numri i shitesit..."
+                                                                name="seller_phone" maxlength="14" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12" align="right">
+                                                            <a href="#" class="btn btn-primary">Vazhdo Aplikimin</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="bottom-justified-tab3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <select class="form-control form-select" name="product_id" required>
+                                                                <option >Zgjidh Produktin</option> 
+                                                                {% for product in products %} 
+                                                                    <option value="{{ product.product.id }}">{{ product.product.product_name }}</option> 
+                                                                {% endfor %}
+                                                            </select>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Shuma</label>
+                                                            <input id="your_seller_number" class="form-control"
+                                                                type="number" min="1" placeholder="vendosni shumen..."
+                                                                name="applied_amount"  required>
+                                                          </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Kohezgjatja</label>
+                                                            <input value="loan_term" id="your_seller_number" class="form-control"
+                                                                type="number" min="1" max="58" placeholder="vendosni numrin e muajve..."
+                                                                name="loan_term"  required>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Kesti</label>
+                                                            <input class="form-control"
+                                                                type="number"
+                                                                name="applied_amount"   disabled>
+                                                          </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Totali</label>
+                                                            <input class="form-control"
+                                                                type="number" 
+                                                                name="loan_term"  disabled>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Konfirmo</label>
+                                                <input 
+                                                        type="checkbox"  
+                                                        name="loan_confirm"
+                                                        style="width:20%; height:auto; transform: scale(1.7);" 
+                                                    />&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12" align="right">
+                                                        <button class="btn btn-primary" type="submit"><i
+                                                                class="fa fa-check"></i>
+                                                            Konfirmo Aplikimin</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p align="center">Të gjitha të drejtat të rezervuara © 2022 Noa.</p>
+            </footer>
+        </div>
+    </div>
+    <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+</body>
+
+</html>
+
+{% else %}
+<h3> Ju nuk jeni i autorizuar per kete faqe !</h3>
+<h3>Ju lutem logohuni ketu: <a href="{% url 'login'%}"> Login</a></h3>
+
+
+{% endif %}

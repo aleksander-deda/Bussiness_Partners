@@ -1,0 +1,15 @@
+{% for msg in messages %}
+
+<div class="alert alert-success" role="alert">
+    {{msg}}
+  </div>
+
+{% endfor %}
+<br>
+
+<a href="{% url 'logout' %}">Log Out</a>
+
+{% if request.user.is_authenticated %}
+<h3> Welcome {{user.first_name}} (SuperEasyPay)</h3>
+
+{% endif %}
