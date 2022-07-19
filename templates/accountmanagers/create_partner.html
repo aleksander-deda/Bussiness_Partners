@@ -59,10 +59,12 @@
                         <div class="avatar avatar-sm">
                             <img alt="User Image" class="avatar-img rounded-circle" src="{% static 'assets/img/profiles/user_profile.webp' %}">
                         </div>
+                        {% if request.user.is_authenticated %}
                         <div class="user-text">
-                            <h6>NOA</h6>
+                            <h6>{{request.user.first_name}}</h6>
                             <p class="text-muted mb-0">Account Manager</p>
                         </div>
+                        {% endif %}
                     </div>
                     <a class="dropdown-item" href="{% url 'my_profile' %}">Profili</a>
                     <a class="dropdown-item" href="#">Njoftime</a>
@@ -110,11 +112,9 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="{% url 'partners-list' %}">Lista e Underwriters</a>
+                                <a href="{% url 'underwriters-list' %}">Lista e Underwriters</a>
                             </li>
-                            <li>
-                                <a href="{% url 'add-partners' %}">Shto Underwriter</a>
-                            </li>
+                            
                         </ul>
                     </li>
                 </ul>
