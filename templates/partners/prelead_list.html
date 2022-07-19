@@ -110,6 +110,9 @@
                             </a>
                             <ul>
                                 <li>
+                                    <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'new-application' %}">Lista e Aplikimeve</a>
                                 </li>
                             </ul>
@@ -123,7 +126,7 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="{% url 'customers-list' %}">Lista e Produkteve</a>
+                                    <a href="{% url 'products-list' %}">Lista e Produkteve</a>
                                 </li>
                             </ul>
                         </li>
@@ -191,9 +194,37 @@
 
                                         <td class="text-center">{{ prelead.seller_name }}</td>
                                     
-                                        <td class="text-center"> {{ prelead.application_status | default:"-" }} </td>
-                                       
-                                        <td class="text-center">{{ prelead.contract_status | default:"-" }}</td>
+                                        <td class="text-center"> 
+                                            {% if prelead.application_status == "Pending" %}
+                                            <span class="badge badge-warning" style="color:white; font-size:90%">
+                                                {{ prelead.application_status }}
+                                            </span>
+                                            {% elif prelead.application_status == "Approved" %}
+                                                <span class="badge badge-success" style="color:white; font-size:90%">
+                                                    {{ prelead.application_status }}
+                                                </span>
+                                            {% elif prelead.application_status == "Rejected" %}
+                                                <span class="badge badge-danger" style="color:white; font-size:90%">
+                                                    {{ prelead.application_status }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if prelead.contract_status == "Pending" %}
+                                            <span  class="badge badge-warning" style="color:white; font-size:90%">
+                                                {{ prelead.contract_status }}
+                                            </span>
+                                            {% elif prelead.contract_status == "Approved" %}
+                                            <span  class="badge badge-success" style="color:white; font-size:90%">
+                                                {{ prelead.contract_status }}
+                                            </span>
+                                            {% elif prelead.contract_status == "Rejected" %}
+                                                <span class="badge badge-danger" style="color:white; font-size:90%">
+                                                    {{ prelead.contract_status }}
+                                                </span>
+                                            {% endif %}
+
+                                        </td>
 
                                         <td class="text-center">{{ prelead.approved_amount | default:"-" }}</td>
                                         <td class="text-center" >

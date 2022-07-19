@@ -65,7 +65,7 @@
                             <p class="text-muted mb-0">UnderWriter</p>
                         </div>
                     </div>
-                    <a class="dropdown-item" href="#">Profili</a>
+                    <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
                     <a class="dropdown-item" href="#">Njoftime</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>
@@ -80,30 +80,14 @@
                         <span style="text-transform: uppercase">Menuja Kryesore</span>
                     </li>
                     <li>
-                        <a href="{% url 'partner' %}">
+                        <a href="{% url 'underwriter' %}">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="menu-title">
-                        <span style="text-transform: uppercase">Partneret</span>
-                    </li>
-                    <li class="submenu">
-                        <a href="#">
-                            <i class="fas fa-school"></i>
-                            <span>Partneret</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="{% url 'partners-list' %}">Lista e Partnerëve</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-title">
                         <span style="text-transform: uppercase">Aplikimet</span>
                     </li>
-                    
                         <li class="submenu">
                             <a href="#">
                                 <i class="fas fa-school"></i>
@@ -112,7 +96,7 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="{% url 'new-application' %}">Lista e Aplikimeve</a>
+                                    <a href="{% url 'prelead-list' %}">Lista e Aplikimeve</a>
                                 </li>
                             </ul>
                         </li>
@@ -128,7 +112,7 @@
                     <div class="col">
                         <h3 class="page-title">Aplikimet</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'partner' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'underwriter' %}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Lista e Aplikimeve</li>
                         </ul>
                     </div>
@@ -189,9 +173,37 @@
 
                                         <td class="text-center">{{ prelead.consent_boa }}</td>
                                     
-                                        <td class="text-center"> {{ prelead.application_status | default:"-" }} </td>
-                                       
-                                        <td class="text-center">{{ prelead.contract_status | default:"-" }}</td>
+                                        <td class="text-center"> 
+                                            {% if prelead.application_status == "Pending" %}
+                                            <span class="badge badge-warning" style="color:white; font-size:90%">
+                                                {{ prelead.application_status }}
+                                            </span>
+                                            {% elif prelead.application_status == "Approved" %}
+                                                <span class="badge badge-success" style="color:white; font-size:90%">
+                                                    {{ prelead.application_status }}
+                                                </span>
+                                            {% elif prelead.application_status == "Rejected" %}
+                                                <span class="badge badge-danger" style="color:white; font-size:90%">
+                                                    {{ prelead.application_status }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if prelead.contract_status == "Pending" %}
+                                            <span  class="badge badge-warning" style="color:white; font-size:90%">
+                                                {{ prelead.contract_status }}
+                                            </span>
+                                            {% elif prelead.contract_status == "Approved" %}
+                                            <span  class="badge badge-success" style="color:white; font-size:90%">
+                                                {{ prelead.contract_status }}
+                                            </span>
+                                            {% elif prelead.contract_status == "Rejected" %}
+                                                <span class="badge badge-danger" style="color:white; font-size:90%">
+                                                    {{ prelead.contract_status }}
+                                                </span>
+                                            {% endif %}
+
+                                        </td>
 
                                         <td class="text-center">{{ prelead.approved_amount | default:"-" }}</td>
                                         <td class="text-center" >
