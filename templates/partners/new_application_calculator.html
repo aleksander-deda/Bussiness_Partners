@@ -156,104 +156,118 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{% url 'new-application' %}" method="POST" enctype="multipart/form-data">
+                                <form action="{% url 'new-application-calculator' %}" method="POST" enctype="multipart/form-data">
                                     {% include 'includes/alert.html' %}
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-                                            <li class="nav-item"><a class="nav-link active"
-                                                    href="#bottom-justified-tab1" data-bs-toggle="tab">
-                                                    Te dhenat e Klientit</a></li>
                                             <li class="nav-item"><a class="nav-link">
-                                                Te dhenat e Partnerit / Llogaritesi</a></li>
+                                                    Te dhenat e Klientit</a></li>
+                                            <li class="nav-item"><a class="nav-link active" href="#bottom-justified-tab3"
+                                                    data-bs-toggle="tab">Te dhenat e Partnerit / Llogaritesi</a></li>
                                         </ul>
                                         <div class="tab-content">
-                                            <div class="tab-pane show active" id="bottom-justified-tab1">
-  
+                                            <div class="tab-pane show active" id="bottom-justified-tab3">
                                                 <div class="row">
+
+                                                   
                                                     <div class="col-12">
-                                                        <h5 class="form-title"><span>Detaje të Klientit</span></h5>
+                                                        <h5 class="form-title"><span>Detaje të Partnerit</span></h5>
                                                     </div>
-                                                
+
+
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Emri</label>
-                                                            <input value="{{customer.first_name}}" id="your_name" class="form-control" type="text"
-                                                                placeholder="emri i klientit..." name="first_name"
+                                                            <label>Shitesi</label>
+                                                            <input value="{{datas.seller_name}}" id="your_seller" class="form-control" type="text"
+                                                                placeholder="emri i shitesit..." name="seller_name"
                                                                 maxlength="60" required>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Mbiemri</label>
-                                                            <input value="{{customer.last_name}}" id="your_surname" class="form-control" type="text"
-                                                                placeholder="mbiemri i klientit..." name="last_name"
-                                                                maxlength="40" required>
+                                                            <label>Nr. Shitesi</label>
+                                                            <input value="{{datas.seller_phone}}" id="your_seller_number" class="form-control"
+                                                                type="text" placeholder="numri i shitesit..."
+                                                                name="seller_phone" maxlength="14" required>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-12 col-sm-6">
+                                                    <div class="col-12">
+                                                        <h5 class="form-title"><span>Detaje për llogaritësin</span></h5>
+                                                    </div>
+                                                    <div class="col-12">
                                                         <div class="form-group">
-                                                            <label>Nr. ID</label>
-                                                            <input value="{{customer.personal_id}}" id="your_id" class="form-control" type="text"
-                                                                placeholder="id-ja e klientit..." name="personal_id"
-                                                                maxlength="10" required>
-                                                        </div>
+                                                            <select class="form-control form-select" name="product_id" required>
+                                                                <option >Zgjidh Produktin</option> 
+                                                                {% for product in products %} 
+                                                                    <option value="{{ product.product.id }}">{{ product.product.product_name }}</option> 
+                                                                {% endfor %}
+                                                            </select>
+                                                          </div>
                                                     </div>
-
-                                                    <div class="col-12 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Datelindja</label>
-                                                            <input value="{{customer.birthdate}}" id="your_birthdate" class="form-control" type="date"
-                                                                placeholder="datelindja e klientit..." name="birthdate"
-                                                                required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Nr. tel</label>
-                                                            <input value="{{customer.mobile}}" id="your_number" class="form-control" type="text"
-                                                                placeholder="numri i klientit..." name="mobile"
-                                                                maxlength="14" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Ngarko ID-ne</label>
-                                                            <input value="{{customer.id_card_doc}}" class="btn" class="form-control" type="file"
-                                                                name="id_card_doc" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-6">
-                                                        <div class="form-group">
-                                                            <a href="Klauzola/klauzola.docx" download="klauzola">
-                                                                <b> Shkarko Klauzolen </b>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Ngarko klauzolen</label>
-                                                            <input value="{{customer.klauzole_doc}}" class="btn" class="form-control" type="file"
-                                                                name="klauzole_doc"
-                                                                accept=".doc, .docx, .pdf, .txt, .jpg, .jpeg"
-                                                                required />
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-12" align="right">
-                                                            <button class="btn btn-primary" type="submit" >Vazhdo Aplikimin</button>
-                                                        </div>
-                                                    </div>
-                                                
                                                 </div>
-                                               
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Shuma</label>
+                                                            <input value="{{datas.applied_amount}}" id="your_seller_number" class="form-control"
+                                                                type="number" min="1" placeholder="vendosni shumen..."
+                                                                name="applied_amount"  required>
+                                                          </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Kohezgjatja</label>
+                                                            <input value="{{datas.loan_term}}" id="your_seller_number" class="form-control"
+                                                                type="number" min="1" max="58" placeholder="vendosni numrin e muajve..."
+                                                                name="loan_term"  required>
+                                                          </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Kesti</label>
+                                                            <input value="{{datas.loan_month}}" class="form-control"
+                                                                type="number"
+                                                                name="loan_month"   disabled>
+                                                          </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label>Totali</label>
+                                                            <input value="{{datas.total}}" class="form-control"
+                                                                type="number" 
+                                                                name="total"  disabled>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Konfirmo</label>
+                                                <input 
+                                                        type="checkbox"  
+                                                        name="loan_confirm"
+                                                        style="width:20%; height:auto; transform: scale(1.7);" 
+                                                    />&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12" style="display: flex; justify-content: space-between;">
+                                                        <a class="btn btn-primary" 
+                                                        href="{% url 'new-application' %}">Kthehu Mbrapa</a>
+                                                        
+                                                        <button class="btn btn-primary" type="submit"><i
+                                                                class="fa fa-check"></i> Konfirmo Aplikimin</button>
+                                                    </div>
+                                                    
+                                                </div>
                                             </div>
-                                            
+                                        </div>
                                         <div class="row">
                                             </div>
                                         </div>
