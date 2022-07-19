@@ -80,7 +80,7 @@
             <li class="nav-item dropdown has-arrow">
                 <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">
                    <span class="user-img">
-                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/logo/dk-photography-logo.png' %}"
+                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/profiles/user_profile.webp' %}"
                              width="31">
                    </span>
                 </a>
@@ -88,7 +88,7 @@
                     <div class="user-header">
                         <div class="avatar avatar-sm">
                             <img alt="User Image" class="avatar-img rounded-circle"
-                                 src="{% static 'assets/img/logo/dk-photography-logo.png' %}">
+                                 src="{% static 'assets/img/profiles/user_profile.webp' %}">
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="user-text">
@@ -97,7 +97,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    <a class="dropdown-item" href="#">Profili</a>
+                    <a class="dropdown-item" href="{% url 'my_profile' %}">Profili</a>
                     <a class="dropdown-item" href="#">Mesazhe</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>

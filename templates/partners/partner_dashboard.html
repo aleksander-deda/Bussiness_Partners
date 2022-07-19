@@ -98,7 +98,7 @@
             <li class="nav-item dropdown has-arrow">
                 <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">
                    <span class="user-img">
-                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/logo/dk-photography-logo.png' %}"
+                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/profiles/user_profile.webp' %}"
                              width="31">
                    </span>
                 </a>
@@ -106,7 +106,7 @@
                     <div class="user-header">
                         <div class="avatar avatar-sm">
                             <img alt="User Image" class="avatar-img rounded-circle"
-                                 src="{% static 'assets/img/logo/dk-photography-logo.png' %}">
+                                 src="{% static 'assets/img/profiles/user_profile.webp' %}">
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="user-text">
@@ -150,6 +150,36 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="submenu">
+                        <a href="#">
+                            <i class="fas fa-school"></i>
+                            <span>Aplikimet</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'preleads-list' %}">Lista e Aplikimeve</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#">
+                            <i class="fas fa-school"></i>
+                            <span>Produktet</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{% url 'customers-list' %}">Lista e Produkteve</a>
+                            </li>
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
         </div>

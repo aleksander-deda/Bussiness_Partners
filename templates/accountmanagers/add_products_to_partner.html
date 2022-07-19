@@ -64,12 +64,14 @@
                                 <img alt="User Image" class="avatar-img rounded-circle"
                                     src="{% static 'assets/img/profiles/user_profile.webp' %}">
                             </div>
+                            {% if request.user.is_authenticated %}
                             <div class="user-text">
-                                <h6>Noa</h6>
-                                <p class="text-muted mb-0">Administrator</p>
+                                <h6>{{request.user.first_name}}</h6>
+                                <p class="text-muted mb-0">Account Manager</p>
                             </div>
+                            {% endif %}
                         </div>
-                        <a class="dropdown-item" href="#">Profili</a>
+                        <a class="dropdown-item" href="{% url 'my_profile' %}">Profili</a>
                         <a class="dropdown-item" href="#">Njoftime</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                     </div>
@@ -218,16 +220,18 @@
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
-
                                             </tbody>
-
+                                            
                                         </table>
+                                        
                                     </div>
                                     <div class="row">
-                                        <div class="col-12">
-                                            <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>
-                                                Menaxho produktin</button>
-                                        </div>
+                                    <div class="col-12" align="right">
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>
+                                            Menaxho produktin</button>
+                                      
+                                    </div>
+                                </div>
                                 </form>
                             </div>
                         </div>

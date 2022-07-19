@@ -6,7 +6,7 @@
     {% load static %}
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport">
-    <title>NOA | Partneret</title>
+    <title>NOA | Underwriters</title>
     <link href="{% static 'assets/img/favicon.png' %}" rel="shortcut icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -65,7 +65,7 @@
                             <p class="text-muted mb-0">Account Manager</p>
                         </div>
                     </div>
-                    <a class="dropdown-item" href="#">Profili</a>
+                    <a class="dropdown-item" href="{% url 'my_profile' %}">Profili</a>
                     <a class="dropdown-item" href="#">Njoftime</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>
