@@ -10,9 +10,6 @@ CURRENCY = (('ALL', 'ALL'),
             ('EURO', 'EURO'))
 
 
-PARTNER_CHANNEL = (('WEB', 'WEB'),
-                    ('SHOP', 'SHOP'))
-
 
 class Status(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
@@ -53,20 +50,20 @@ class Product(models.Model):
 
 
 class Prelead(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey(PartnerProduct, on_delete=models.CASCADE, null=True, blank=True)
-    applied_amount = models.DecimalField(max_digits= 10, decimal_places=3, null=False, blank=False)
-    approved_amount = models.DecimalField(max_digits= 10, decimal_places=3, null=False, blank=False)
-    currency = models.CharField(choices= CURRENCY, max_length=10, null=False, blank=False)
-    loan_term = models.IntegerField(null=False, blank=False)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True, blank=True)
+    product = models.ForeignKey(PartnerProduct, on_delete=models.CASCADE,null=True, blank=True)
+    applied_amount = models.DecimalField(max_digits= 10, decimal_places=3, null=True, blank=True)
+    approved_amount = models.DecimalField(max_digits= 10, decimal_places=3, null=True, blank=True)
+    currency = models.CharField(choices= CURRENCY, max_length=10, null=True, blank=True, default="ALL")
+    loan_term = models.IntegerField(null=True, blank=True)
     monthly_loan = models.FloatField(null=True, blank=True)
-    partner_contract = models.FileField(upload_to="file/partner_contracts/%Y/%m/%d/",validators=[validate_file_extension], null=False, blank=False)
-    uw_contract = models.FileField(upload_to="file/uw_contracts/%Y/%m/%d/",validators=[validate_file_extension], null=False, blank=False)
-    doc_1 = models.FileField(upload_to="file/additional_docs/%Y/%m/%d/",validators=[validate_file_extension], null=False, blank=False)
-    doc_2 = models.FileField(upload_to="file/additional_docs/%Y/%m/%d/",validators=[validate_file_extension], null=False, blank=False)
-    seller_name = models.CharField(max_length=60, null=False, blank=False)
-    seller_phone = models.CharField(max_length=16, null=False, blank=False)
-    partner_channel = models.CharField(choices=PARTNER_CHANNEL, max_length=10)
+    partner_contract = models.FileField(upload_to="file/partner_contracts/%Y/%m/%d/",validators=[validate_file_extension], null=True, blank=True)
+    uw_contract = models.FileField(upload_to="file/uw_contracts/%Y/%m/%d/",validators=[validate_file_extension], null=True, blank=True)
+    doc_1 = models.FileField(upload_to="file/additional_docs/%Y/%m/%d/",validators=[validate_file_extension], null=True, blank=True)
+    doc_2 = models.FileField(upload_to="file/additional_docs/%Y/%m/%d/",validators=[validate_file_extension], null=True, blank=True)
+    seller_name = models.CharField(max_length=60, null=True, blank=True)
+    seller_phone = models.CharField(max_length=16, null=True, blank=True)
+    partner_channel = models.CharField(max_length=15)
     contract_status = models.CharField(null=True, blank=True, max_length=20)
     application_status = models.CharField(null=True, blank=True, max_length=20)
     rejection_reason = models.CharField(max_length=256, null=True, blank=True)
