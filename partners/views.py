@@ -88,13 +88,25 @@ class CustomerList( ListView):
         return context      
     
     
+    
 def preleads_list(request):
     user = User.objects.get(id=request.user.id)
     member = Member.objects.filter(user_id=user).first()
-    partner = Partner.objects.filter(member_id=member).first()
+    partner = Partner.objects.filter(member_id=member, is_active=True).first()
     preleads = Prelead.objects.filter(product__partner=partner, is_active=True)
     
     return render (request, 'partners/prelead_list.html', {'preleads': preleads})
+
+
+
+def products_list(request):
+    user = User.objects.get(id=request.user.id)
+    member = Member.objects.filter(user_id=user).first()
+    partner = Partner.objects.filter(member_id=member, is_active=True).first()
+    products = PartnerProduct.objects.filter(partner=partner, is_active=True)
+    
+    
+    return render (request, 'partners/products_list.html', {'products': products})
    
    
 
@@ -155,7 +167,7 @@ def new_application_calculator(request):
     user = User.objects.get(id=request.user.id)
     member = Member.objects.filter(user_id=user).first()
     partner = Partner.objects.filter(member_id=member, is_active=True).first()
-    products = PartnerProduct.objects.filter(partner_id=partner.id,  is_active=True)
+    products = PartnerProduct.objects.filter(partner_id=partner.id, start_date__lte=today, is_active=True)
     datas = {}
     context={}
     
