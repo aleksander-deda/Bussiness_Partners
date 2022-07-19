@@ -1,21 +1,17 @@
 from django.shortcuts import render, redirect
-from partners.models import Partner
+from partners.models import Partner, PartnerProduct
 from underwriters.models import UnderWriter
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy, reverse
 from backoffice.models import Member, MemberType, Product
+from .models import AccountManager
 from django.contrib.auth.models import User
 import random, string
-from django.contrib import messages
-from partners.models import PartnerProduct
-import array as arr
-from datetime import datetime
+from django.contrib import messages 
 import json
 import datetime
-from django.utils import timezone
-
 # from django.contrib.auth.decorators import login_required
-
 
 
 def generate_random_password(length):
@@ -25,15 +21,26 @@ def generate_random_password(length):
 
 
 # @login_required(login_url='login')
-def account_manager_view(request):
+def account_manager_dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'accountmanagers/account_manager_dashboard.html')
     else:
         return redirect('login')
     
+
+class MyProfile( DetailView):
+    model = AccountManager
+    context_object_name = 'accountmanager'
+    template_name = 'accountmanagers/account_manager_profile.html'
     
+    def get_object(self):
+        user = User.objects.get(id=self.request.user.id)
+        member = Member.objects.filter(user_id=user).first()
+        account_manager = AccountManager.objects.filter(member_id=member).first()
+        return account_manager  
     
-    
+ 
+   
 def add_partner(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -42,7 +49,7 @@ def add_partner(request):
         last_name = request.POST['surname']
         email = request.POST['email']
         
-        
+                
         if username is None or username == "":
             messages.error(request, 'Username nuk mund te jete bosh!')
         elif password is None or password =="":
@@ -54,15 +61,13 @@ def add_partner(request):
             
             if user is not None:
                 member = Member.objects.create(username=username, tmp_pass=generate_random_password(8), member_type=MemberType.objects.get(code="partner"), user=user)
-                
-                
+                                
                 if member is not None:
                     name = request.POST['name']
                     personal_id = requet.POST['personal_id']
                     nr_tel = request.POST['phone']
                     nipt = request.POST['nipt']
                     
-
                     if name is None or name == "":
                         messages.error(request, 'Emri i partnerit nuk mund te jete bosh!')
                     elif personal_id  is None or personal_id =="":
@@ -83,12 +88,14 @@ def add_partner(request):
     return render(request, 'accountmanagers/create_partner.html')   
 
 
+
 def underwriters(request):
     underwriters = UnderWriter.objects.all().order_by('name')
     context = {
         'underwriters': underwriters
     }
     return render(request, 'accountmanagers/underwriters_list.html', context)
+
 
 
 def partners(request):
@@ -113,31 +120,23 @@ def add_products_to_partners(request, id):
     partner = Partner.objects.filter(id=id, is_active=True).first()
     products = Product.objects.filter(is_active=True).order_by("product_name")
     partner_products = PartnerProduct.objects.filter(partner_id=id, is_active=True)
-    page_reload = False
     
-    i = 0
-    for assigned_products in partner_products:
-        i += 1
-        print('i":', i)
+    
+    for assigned_products in partner_products:       
         current_end_date = datetime.datetime.strftime(assigned_products.end_date, '%b %d %Y %I:%M%p')
         current_id = assigned_products.id
-        print("current_id: " ,current_id)
-        
+        print("current_id: " ,current_id) 
         expire_validation = validate_products(current_end_date)
         if expire_validation == True:
             PartnerProduct.objects.filter(id=current_id).delete()
-            page_reload = True
-    
-    if page_reload == True:
-        return redirect(add_products_to_partners, id=id)
-    
+
     partner_product_list = []
     index = 0
     
     for product in products:
         index += 1    
         product_id = product.id
-        partner_product_obj = PartnerProduct.objects.filter(partner_id=id,product=product_id).first()
+        partner_product_obj = PartnerProduct.objects.filter(partner_id=id, product=product_id).first()
         
         if partner_product_obj is not None:
             start_date = partner_product_obj.start_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -187,7 +186,7 @@ def add_products_to_partners(request, id):
                     )
                     partnerProductObj.save()            
             return redirect(add_products_to_partners, id=id)
-        
+                
         else:
             messages.error(request, 'Nuk ka produkte per partnerin!')
     else:
