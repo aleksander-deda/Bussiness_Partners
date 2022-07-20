@@ -169,7 +169,6 @@ def new_application_calculator(request):
     partner = Partner.objects.filter(member_id=member, is_active=True).first()
     products = PartnerProduct.objects.filter(partner_id=partner.id, start_date__lte=today, is_active=True)
     datas = {}
-    context={}
     
     if request.method == 'POST':
         seller_name = request.POST.get('seller_name')
@@ -183,17 +182,7 @@ def new_application_calculator(request):
         print(selected_product)
         print(loan_confirm)
         
-        datas = {           
-            'seller_name': seller_name,
-            'seller_phone': seller_phone,
-            # 'loan_month': loan_month,
-            'applied_amount': applied_amount,
-            'loan_term': loan_term,
-        }
-        print('datas: ',datas) 
-        
-        
-        
+
         if seller_name is not None and seller_phone is not None and selected_product is not None and applied_amount is not None and loan_term is not None:
             loan_config = LoanConfig.objects.filter(product_id=selected_product, min_loan_term__lte=loan_term, max_loan_term__gte=loan_term).first()
             product = PartnerProduct.objects.filter(partner_id=partner.id, product_id=selected_product, is_active=True).first()
@@ -209,6 +198,18 @@ def new_application_calculator(request):
                 loan_month = float(total/loan_term)
                 print('loan_term: ', loan_term)
                 print("loan_month: ",loan_month)
+                
+                datas = {           
+                'seller_name': seller_name,
+                'seller_phone': seller_phone,
+                'selected_product': selected_product,
+                'loan_month': loan_month,
+                'applied_amount': applied_amount,
+                'loan_term': loan_term,
+                'loan_month': loan_month,
+                'total': total,
+                        }
+                print('datas: ',datas)
                            
                 if loan_confirm is not None:
                     print('Hello World!!!!')
@@ -226,16 +227,19 @@ def new_application_calculator(request):
                     
                 
                 else:
-                     return redirect('new-application-calculator')
+                     pass
             else:
                 messages.error(request, 'Produkti nuk u gjet!')
             
-            return redirect('preleads-list')
-            messages.success(request, 'Aplikimi per klientin u krye me sukses')
+            #return redirect('preleads-list')
+            #messages.success(request, 'Aplikimi per klientin u krye me sukses')
+        print("selected_produc before context: ", selected_product)
+
     context = {
-            'products': products,
-            'datas': datas,
-        }
+        'products': products,
+        'datas': datas,
+            }
+    
     print('datas1: ',context['datas'])
     
     
