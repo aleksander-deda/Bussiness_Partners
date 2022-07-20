@@ -69,7 +69,7 @@
                                 <p class="text-muted mb-0">Partner</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
+                        <a class="dropdown-item" href="{% url 'myprofile' %}">Profili</a>
                         <a class="dropdown-item" href="#">Njoftime</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                     </div>
@@ -221,26 +221,22 @@
                                                     </div>
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Ngarko ID-ne</label>
+                                                            <label for="card_id" class="btn btn-outline-primary me-2"><i class="fas fa-upload"></i> Ngarko ID-ne</label>
                                                             <input value="{{customer.id_card_doc}}" class="btn" class="form-control" type="file"
-                                                                name="id_card_doc" />
+                                                                name="id_card_doc" id="card_id" hidden required/>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
-                                                            <a href="Klauzola/klauzola.docx" download="klauzola">
-                                                                <b> Shkarko Klauzolen </b>
-                                                            </a>
+                                                            <a class="btn btn-outline-primary me-2" href="media/Klauzola/clausole.jpg" download="klauzola"><i class="fas fa-download"></i> Shkarko Klauzolen</a>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Ngarko klauzolen</label>
-                                                            <input value="{{customer.klauzole_doc}}" class="btn" class="form-control" type="file"
-                                                                name="klauzole_doc"
-                                                                accept=".doc, .docx, .pdf, .txt, .jpg, .jpeg"
-                                                                required />
+                                                            <label for="clausole" class="btn btn-outline-primary me-2"><i class="fas fa-upload"></i> Ngarko klauzolen</label>
+                                                            <input id="clausole" value="{{customer.klauzole_doc}}"  type="file" name="klauzole_doc"
+                                                                accept=".doc, .docx, .pdf, .txt, .jpg, .jpeg" hidden required>  
 
                                                         </div>
                                                     </div>

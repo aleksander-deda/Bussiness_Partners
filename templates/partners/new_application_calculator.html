@@ -69,7 +69,7 @@
                                 <p class="text-muted mb-0">Partner</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
+                        <a class="dropdown-item" href="{% url 'myprofile' %}">Profili</a>
                         <a class="dropdown-item" href="#">Njoftime</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                     </div>
@@ -200,9 +200,11 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <select class="form-control form-select" name="product_id" required>
-                                                                <option >Zgjidh Produktin</option> 
-                                                                {% for product in products %} 
-                                                                    <option value="{{ product.product.id }}">{{ product.product.product_name }}</option> 
+                                                                <option>Zgjidh Produktin</option> 
+                                                                {% for product in products %}
+                                                                    <option value="{{ product.product.id }}" 
+                                                                    {% if datas.selected_product == product.product.id %} selected {% endif %}>
+                                                                        {{ product.product.product_name }}</option> 
                                                                 {% endfor %}
                                                             </select>
                                                           </div>
