@@ -222,17 +222,18 @@ def new_application_calculator(request):
                                     seller_name=seller_name,seller_phone=seller_phone,applied_amount=applied_amount,
                                     loan_term=loan_term)
                     
-                    print('Prelead: ', prelead)
+                    print('Prelead: ', prelead)    
                     prelead.save()   
-                    
                 
-                else:
-                     pass
-            else:
-                messages.error(request, 'Produkti nuk u gjet!')
+                    return redirect('preleads-list')   
             
-            #return redirect('preleads-list')
-            #messages.success(request, 'Aplikimi per klientin u krye me sukses')
+            else:
+                messages.error(request, 'Produkti me keto te dhena nuk u gjet!')
+              
+        # else:
+        #     messages.success(request, 'Aplikimi per klientin u krye me sukses')
+        
+
         print("selected_produc before context: ", selected_product)
 
     context = {
@@ -241,8 +242,6 @@ def new_application_calculator(request):
             }
     
     print('datas1: ',context['datas'])
-    
-    
-                
+
     return render (request, 'partners/new_application_calculator.html', context)
     
