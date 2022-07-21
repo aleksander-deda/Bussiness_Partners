@@ -199,12 +199,16 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-group">
-                                                            <select class="form-control form-select" name="product_id" required>
+                                                            <select id="sort-item" class="form-control form-select" name="product_id" required>
                                                                 <option>Zgjidh Produktin</option> 
+                                                                                        
                                                                 {% for product in products %}
-                                                                    <option value="{{ product.product.id }}" 
-                                                                    {% if datas.selected_product == product.product.id %} selected {% endif %}>
-                                                                        {{ product.product.product_name }}</option> 
+                                                                    <option 
+                                                                        value="{{ product.product.id }}" 
+                                                                        {% if  product.product.id|slugify == datas.selected_product|slugify %} selected {% endif %}
+                                                                        >
+                                                                        {{ product.product.product_name }}
+                                                                    </option> 
                                                                 {% endfor %}
                                                             </select>
                                                           </div>
@@ -250,10 +254,12 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label>Konfirmo</label>
+                                                        <label for="confirmation_button">Konfirmo</label>
                                                 <input 
+                                                        id="confirmation"
                                                         type="checkbox"  
                                                         name="loan_confirm"
+                                                        onclick="validate()"
                                                         style="width:20%; height:auto; transform: scale(1.7);" 
                                                     />&nbsp;
                                                     </div>
@@ -263,8 +269,8 @@
                                                         <a class="btn btn-primary" 
                                                         href="{% url 'new-application' %}">Kthehu Mbrapa</a>
                                                         
-                                                        <button class="btn btn-primary" type="submit"><i
-                                                                class="fa fa-check"></i> Konfirmo Aplikimin</button>
+                                                        <button id="confirmation_button" class="btn btn-primary" type="submit" ><i
+                                                                class="fa fa-check"></i> Llogarit</button>
                                                     </div>
                                                     
                                                 </div>
@@ -290,6 +296,29 @@
     <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
     <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
     <script src="{% static 'assets/js/script.js' %}"></script>
+   <script>
+    var btn = document.getElementById("confirmation_button");
+    var confirmation_checkbox = document.getElementById("confirmation")
+    
+    function validate() {
+    if (confirmation_checkbox.checked) {
+        btn.innerText = " Konfirmo Aplikimin";
+    }
+    else{
+        btn.innerText = "Llogarit";
+    }};
+
+
+//        $("#confirmation_button").click(function() {
+//     if($(this).is(':checked')) {
+//         $("#label").text("Konfirmo Aplikimin");
+//     } else {
+//         $("#label").text("Llogarit");
+//     }
+// });
+
+
+    </script> 
 </body>
 
 </html>
