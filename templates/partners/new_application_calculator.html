@@ -94,7 +94,7 @@
                         </li>
                         <li class="submenu">
                             <a href="#">
-                                <i class="fas fa-school"></i>
+                                <i class="fas fa-users"></i>
                                 <span>Klientët</span>
                                 <span class="menu-arrow"></span>
                             </a>
@@ -103,37 +103,40 @@
                                     <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'customers-list' %}">Lista e klientëve</a>
+                                    <a href="{% url 'customers-list' %}">Lista e Klientëve</a>
                                 </li>
                             </ul>
-                            <li class="submenu">
-                                <a href="#">
-                                    <i class="fas fa-school"></i>
-                                    <span>Aplikimet</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul>
-                                    <li>
-                                        <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'preleads-list' %}">Lista e Aplikimeve</a>
-                                    </li>
-                                </ul>
-                            </li>
-        
-                            <li class="submenu">
-                                <a href="#">
-                                    <i class="fas fa-school"></i>
-                                    <span>Produktet</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul>
-                                    <li>
-                                        <a href="{% url 'products-list' %}">Lista e Produkteve</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        </li>
+    
+                        <li class="submenu">
+                            <a href="#">
+                                <i class="fas fa-clipboard"></i>
+                                <span>Aplikimet</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'preleads-list' %}">Lista e Aplikimeve</a>
+                                </li>
+                            </ul>
+                        </li>
+    
+                        <li class="submenu">
+                            <a href="#">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span>Produktet</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'products-list' %}">Lista e Produkteve</a>
+                                </li>
+                            </ul>
+                        </li>
+    
                         </li>
                     </ul>
                 </div>
@@ -269,8 +272,8 @@
                                                         <a class="btn btn-primary" 
                                                         href="{% url 'new-application' %}">Kthehu Mbrapa</a>
                                                         
-                                                        <button id="confirmation_button" class="btn btn-primary" type="submit" ><i
-                                                                class="fa fa-check"></i> Llogarit</button>
+                                                        <button id="confirmation_button" class="btn btn-primary" type="submit"
+                                                            >Llogarit</button>
                                                     </div>
                                                     
                                                 </div>
@@ -297,15 +300,22 @@
     <script src="{% static 'assets/plugins/datatables/datatables.min.js' %}"></script>
     <script src="{% static 'assets/js/script.js' %}"></script>
    <script>
-    var btn = document.getElementById("confirmation_button");
+    var btn = document.getElementById("confirmation_button")
     var confirmation_checkbox = document.getElementById("confirmation")
-    
+    const clas = ['btn btn-primary']
     function validate() {
     if (confirmation_checkbox.checked) {
-        btn.innerText = " Konfirmo Aplikimin";
+        btn.className = 'btn btn-success'
+        btn.innerHTML = '<i class="fa fa-check"></i> Konfirmo Aplikimin';
+        btn.style.fontSize = '1.3rem';
+        
+        
     }
     else{
+        btn.className ='btn btn-primary'
         btn.innerText = "Llogarit";
+        btn.style.fontSize = '1rem';
+        
     }};
 
 
