@@ -64,7 +64,7 @@ def add_partner(request):
                                 
                 if member is not None:
                     name = request.POST['name']
-                    personal_id = requet.POST['personal_id']
+                    personal_id = request.POST['personal_id']
                     nr_tel = request.POST['phone']
                     nipt = request.POST['nipt']
                     

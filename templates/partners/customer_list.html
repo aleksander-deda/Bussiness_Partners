@@ -85,12 +85,9 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="menu-title">
-                        <span style="text-transform: uppercase">Partner</span>
-                    </li>
                     <li class="submenu">
                         <a href="#">
-                            <i class="fas fa-school"></i>
+                            <i class="fas fa-users"></i>
                             <span>Klientët</span>
                             <span class="menu-arrow"></span>
                         </a>
@@ -99,37 +96,39 @@
                                 <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
                             </li>
                             <li>
-                                <a href="{% url 'customers-list'%}">Lista e Klientëve</a>
+                                <a href="{% url 'customers-list' %}">Lista e Klientëve</a>
                             </li>
                         </ul>
-                        <li class="submenu">
-                            <a href="#">
-                                <i class="fas fa-school"></i>
-                                <span>Aplikimet</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'preleads-list' %}">Lista e Aplikimeve</a>
-                                </li>
-                            </ul>
-                        </li>
-    
-                        <li class="submenu">
-                            <a href="#">
-                                <i class="fas fa-school"></i>
-                                <span>Produktet</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="{% url 'products-list' %}">Lista e Produkteve</a>
-                                </li>
-                            </ul>
-                        </li>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#">
+                            <i class="fas fa-clipboard"></i>
+                            <span>Aplikimet</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{% url 'new-application' %}">Krijo Aplikim të ri</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'preleads-list' %}">Lista e Aplikimeve</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Produktet</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{% url 'products-list' %}">Lista e Produkteve</a>
+                            </li>
+                        </ul>
+                    </li>
                     </li>
                 </ul>
             </div>

@@ -156,8 +156,6 @@ def new_application_customer_details(request):
             print('customer object: ', customer)
         
         return redirect('new-application-calculator')
-                   
-    
     return render(request, 'partners/new_application_customer_details.html', context)
 
 
