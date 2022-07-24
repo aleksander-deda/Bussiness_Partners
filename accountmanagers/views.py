@@ -109,7 +109,7 @@ def partners(request):
 
 def validate_products(end_date):
     # today = datetime.datetime.today().now().strftime('%Y-%m-%d %H:%M:%S')
-    today = datetime.datetime.strftime(datetime.datetime.today().now(), '%b %d %Y %I:%M%p') 
+    today = datetime.datetime.strftime(datetime.datetime.today().now(), '%Y-%m-%d %H:%M:%S') 
     
     if end_date < today:
         return True
@@ -123,7 +123,7 @@ def add_products_to_partners(request, id):
     
     
     for assigned_products in partner_products:       
-        current_end_date = datetime.datetime.strftime(assigned_products.end_date, '%b %d %Y %I:%M%p')
+        current_end_date = datetime.datetime.strftime(assigned_products.end_date, '%Y-%m-%d %H:%M:%S')
         current_id = assigned_products.id
         print("current_id: " ,current_id) 
         expire_validation = validate_products(current_end_date)
