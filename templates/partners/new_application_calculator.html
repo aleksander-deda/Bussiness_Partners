@@ -200,7 +200,7 @@
                                                     <div class="col-12">
                                                         <h5 class="form-title"><span>Detaje për llogaritësin</span></h5>
                                                     </div>
-                                                    <div class="col-12">
+                                                    <div class="col-6">
                                                         <div class="form-group">
                                                             <select id="sort-item" class="form-control form-select" name="product_id" required>
                                                                 <option>Zgjidh Produktin</option> 
@@ -216,6 +216,17 @@
                                                             </select>
                                                           </div>
                                                     </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">   
+                                                    <input 
+                                                            value="{{datas.has_bonus}}"
+                                                            id="confirmation_checkbox"
+                                                            type="checkbox"  
+                                                            name="has_bonus"
+                                                            style="width:20%; height:auto; transform: scale(1.7);" 
+                                                        /><label>Produkti me Bonus</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="row">
@@ -223,7 +234,7 @@
                                                         <div class="form-group">
                                                             <label>Shuma</label>
                                                             <input value="{{datas.applied_amount}}" id="your_seller_number" class="form-control"
-                                                                type="number" min="1" placeholder="vendosni shumen..."
+                                                                type="number" step="0.01" min="1" placeholder="vendosni shumen..."
                                                                 name="applied_amount"  required>
                                                           </div>
                                                     </div>
@@ -231,7 +242,7 @@
                                                         <div class="form-group">
                                                             <label>Kohezgjatja</label>
                                                             <input value="{{datas.loan_term}}" id="your_seller_number" class="form-control"
-                                                                type="number" min="1" max="58" placeholder="vendosni numrin e muajve..."
+                                                                type="number" step="0.01" min="1" max="58" placeholder="vendosni numrin e muajve..."
                                                                 name="loan_term"  required>
                                                           </div>
                                                     </div>
@@ -241,30 +252,33 @@
                                                     <div class="col-6">
                                                         <div class="form-group">
                                                             <label>Kesti</label>
-                                                            <input value="{{datas.loan_month}}" class="form-control"
+                                                            <input value="{{results.loan_month}}" class="form-control"
                                                                 type="number"
-                                                                name="loan_month"   disabled>
+                                                                name="loan_month"
+                                                                step="0.01" 
+                                                                disabled>
                                                           </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-group">
                                                             <label>Totali</label>
-                                                            <input value="{{datas.total}}" class="form-control"
+                                                            <input value="{{results.total}}" class="form-control"
                                                                 type="number" 
-                                                                name="total"  disabled>
+                                                                name="total"
+                                                                step="0.1"  
+                                                                disabled>
                                                           </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="confirmation_button">Konfirmo</label>
                                                 <input 
                                                         id="confirmation"
                                                         type="checkbox"  
                                                         name="loan_confirm"
                                                         onclick="validate()"
-                                                        style="width:20%; height:auto; transform: scale(1.7);" 
-                                                    />&nbsp;
+                                                        style=" width:20%; height:auto; transform: scale(1.7);" 
+                                                    /><label for="confirmation_button">Konfirmo Aplikimin</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -307,7 +321,7 @@
     if (confirmation_checkbox.checked) {
         btn.className = 'btn btn-success'
         btn.innerHTML = '<i class="fa fa-check"></i> Konfirmo Aplikimin';
-        btn.style.fontSize = '1.3rem';
+        // btn.style.fontSize = '1.3rem';
         
         
     }

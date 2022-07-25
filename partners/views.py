@@ -12,11 +12,6 @@ import datetime
 from django.contrib import messages
 
 
-customer = None
-partner = None
-prelead = None
-
-
 # @login_required(login_url='login')
 def partner_dashboard(request):
     if request.user.is_authenticated:
@@ -160,6 +155,31 @@ def new_application_customer_details(request):
 
 
 
+def calculating_product_results(partner_fee_without_bonus,partner_fee_with_bonus,customer_interest, application_commission,bonus,applied_amount,loan_term, has_bonus):
+    calculator = {}
+    
+    if has_bonus is None:
+    
+        total = float("%.2f" %(applied_amount + applied_amount * customer_interest + applied_amount * partner_fee_without_bonus + applied_amount * application_commission))
+        loan_month = float(total/loan_term)
+        print("Totali pa bonus: ", total)
+        print("Monthly_loan pa bonus: ", loan_month)
+
+    else:
+        total = float(applied_amount + applied_amount * customer_interest + applied_amount * partner_fee_with_bonus + applied_amount * bonus + applied_amount * application_commission)
+        loan_month = float(total/loan_term)
+
+        print("Totali me bonus: ", total)
+        print("Monthly_loan me bonus: ", loan_month)
+    
+    
+    calculator = { "total": total,"loan_month": loan_month}
+    print("calculator: ", calculator)
+    
+    return calculator 
+
+
+
 def new_application_calculator(request):
     today = datetime.datetime.strftime(datetime.datetime.today().now(), '%Y-%m-%d %H:%M:%S')
     user = User.objects.get(id=request.user.id)
@@ -167,45 +187,37 @@ def new_application_calculator(request):
     partner = Partner.objects.filter(member_id=member, is_active=True).first()
     products = PartnerProduct.objects.filter(partner_id=partner.id, start_date__lte=today, is_active=True)
     datas = {}
+    result = {}
     
     if request.method == 'POST':
         seller_name = request.POST.get('seller_name')
         seller_phone = request.POST.get('seller_phone')
-        print(seller_name)
-        print(seller_phone)
         selected_product = request.POST.get('product_id')
         applied_amount = float(request.POST.get('applied_amount'))
         loan_term = float(request.POST.get('loan_term'))
         loan_confirm = request.POST.get('loan_confirm')
-        print(selected_product)
-        print(loan_confirm)
-        
+        has_bonus = request.POST.get('has_bonus')
 
+        print("has_bonus: ", has_bonus)
+        
         if seller_name is not None and seller_phone is not None and selected_product is not None and applied_amount is not None and loan_term is not None:
             loan_config = LoanConfig.objects.filter(product_id=selected_product, min_loan_term__lte=loan_term, max_loan_term__gte=loan_term).first()
             product = PartnerProduct.objects.filter(partner_id=partner.id, product_id=selected_product, is_active=True).first()
             print("loan_config: ", loan_config)
                     
             if loan_config is not None:
-                interest = float(loan_config.customer_interest)
-                fee = float(loan_config.partner_fee_without_bonus)
-                total = float(applied_amount + applied_amount*interest + applied_amount*fee)
-                print('applied_amount: ', applied_amount)
-                print('total: ' ,total)
+                result = calculating_product_results(loan_config.partner_fee_without_bonus,loan_config.partner_fee_with_bonus,loan_config.customer_interest, 
+                            loan_config.application_commission,loan_config.bonus,applied_amount,loan_term, has_bonus)
                 
-                loan_month = float(total/loan_term)
-                print('loan_term: ', loan_term)
-                print("loan_month: ",loan_month)
                 
                 datas = {           
                 'seller_name': seller_name,
                 'seller_phone': seller_phone,
                 'selected_product': selected_product,
-                'loan_month': loan_month,
                 'applied_amount': applied_amount,
                 'loan_term': loan_term,
-                'loan_month': loan_month,
-                'total': total,
+                'has_bonus': has_bonus,
+                
                         }
                 print('datas: ',datas)
                            
@@ -230,14 +242,14 @@ def new_application_calculator(request):
               
         # else:
         #     messages.success(request, 'Aplikimi per klientin u krye me sukses')
-        
 
         print("selected_produc before context: ", selected_product)
 
     context = {
         'products': products,
         'datas': datas,
-            }
+        'results': result  
+        }
     
     print('datas1: ',context['datas'])
 
