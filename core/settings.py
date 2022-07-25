@@ -68,7 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 
 ROOT_URLCONF = 'core.urls'
 
@@ -162,3 +162,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024 * 1024
+#SESSION_ENGINE = "django.conrib.sessions.backends.cache"
