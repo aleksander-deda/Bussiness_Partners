@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from .models import Customer, Partner, PartnerProduct, LoanConfig
 from backoffice.models import Prelead, Member, Product
@@ -7,7 +8,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView
-from .forms import PartnerForm, UserForm
+from .forms import PartnerForm
 import datetime
 from django.contrib import messages
 
@@ -32,34 +33,38 @@ class MyProfile( DetailView):
         partner = Partner.objects.filter(member_id=member).first()
         return partner
     
-    
-    
-class ProfileUpdate(UpdateView):
-    model = Partner
-    form_class = PartnerForm
-    user_form_class = UserForm
-   
-    # context_object_name = 'partner'
-    success_url = reverse_lazy('my-profile')
 
-    def get_object(self):
-        user = User.objects.get(id=self.request.user.id)
-        member = Member.objects.filter(user_id=user.id).first()
-        partner = Partner.objects.filter(member_id=member.id).first()
-        
-        return partner
+def profile_update(request, id):
+    user = User.objects.get(id=id)
+    member = Member.objects.filter(user_id=user).first()
+    partner = Partner.objects.filter(member_id=member).first()
     
-    def get_context_data(self, **kwargs):
-        context = super(ProfileUpdate, self).get_context_data(**kwargs)        
-        context['users'] = User.objects.all()
-        context['member'] = context['users'].filter(username=self.request.user.username).first()
-       
-        # context['user'] = context['users'].filter(id=self.request.user.id, is_active=True)
-        
-        # context['users'] = User.objects.get(id=self.request.user.id)
-        
-        
-        return context
+    if request.method == 'POST':
+        form = PartnerForm(request.POST, instance=request.user)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        nr_tel = request.POST.get('nr_tel')
+
+        if form.is_valid():
+            user.username=username
+            user.set_password(password)
+            user.email=email
+            user.save()
+            
+            member.username=username
+            member.save()
+
+            partner.nr_tel=nr_tel
+            partner.save()
+           
+        return redirect('login')
+    
+    else:
+        form = PartnerForm()
+    
+    return render(request, 'partners/partner_update.html', context={'form': form, 'user': user,'partner': partner })
+
 
 
 class CustomerList( ListView):
@@ -160,7 +165,7 @@ def calculating_product_results(partner_fee_without_bonus,partner_fee_with_bonus
     
     if has_bonus is None:
     
-        total = float("%.2f" %(applied_amount + applied_amount * customer_interest + applied_amount * partner_fee_without_bonus + applied_amount * application_commission))
+        total = float(applied_amount + applied_amount * customer_interest + applied_amount * partner_fee_without_bonus + applied_amount * application_commission)
         loan_month = float(total/loan_term)
         print("Totali pa bonus: ", total)
         print("Monthly_loan pa bonus: ", loan_month)
