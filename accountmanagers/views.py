@@ -40,7 +40,7 @@ class MyProfile( DetailView):
         return account_manager  
     
  
-   
+ 
 def add_partner(request):
     if request.method == "POST":
         username = request.POST['username']
