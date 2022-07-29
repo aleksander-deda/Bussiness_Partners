@@ -11,6 +11,7 @@ import random, string
 from django.contrib import messages 
 import json
 import datetime
+from .forms import AccountManagerForm, UserForm
 # from django.contrib.auth.decorators import login_required
 
 
@@ -38,9 +39,64 @@ class MyProfile( DetailView):
         member = Member.objects.filter(user_id=user).first()
         account_manager = AccountManager.objects.filter(member_id=member).first()
         return account_manager  
+  
     
+def profile_update(request, id):
+    user = User.objects.get(id=id)
+    member = Member.objects.filter(user_id=user).first()
+    
+    if request.method == 'POST':
+        form = AccountManagerForm(request.POST, instance=request.user)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        
+        if form.is_valid():
+            user.username=username
+            user.email=email
+            user.save()
+            
+            member.username=username
+            member.save()
+
+            return redirect('am-profile')
+        
+        else:
+            messages.error(request, "Ju lutemi vendosni te dhenat e sakta")
+    
+    else:
+        form = AccountManagerForm()
+    
+    return render(request, 'accountmanagers/account_manager_update.html', context={'form': form, 'user': user })
  
  
+def change_password(request, id):
+    user = User.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=request.user)
+        print("form: ", form)
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        print(old_password)
+        print(new_password)
+        
+        if form.is_valid():
+            print("hello")
+            user.set_password(new_password)
+            user.save()
+            print(user.password)
+            
+            return redirect('login')
+        
+        else:
+            messages.error(request, "Fjalëkalimi i ri duhet të jetë i njëjtë me fjalëkalimin e konfirmimit")
+    else:
+        form = UserForm()
+
+    return render(request, 'accountmanagers/change_password.html', context={'form': form, 'user': user})
+
+
+
 def add_partner(request):
     if request.method == "POST":
         username = request.POST['username']
