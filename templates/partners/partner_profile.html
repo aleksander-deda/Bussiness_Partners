@@ -105,9 +105,10 @@
                         </div>
                         {% endif %}
                      </div>
-                     <a class="dropdown-item" href="{% url 'myprofile' %}">My Profile</a>
-                     <a class="dropdown-item" href="inbox.html">Inbox</a>
-                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                     <a class="dropdown-item" href="{% url 'myprofile' %}">Profili</a>
+                     <a class="dropdown-item" href="{% url 'change-partner-password' user.id %}">Ndrysho fjalekalimin</a>
+                     <a class="dropdown-item" href="inbox.html">Mesazhe</a>
+                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                   </div>
                </li>
             </ul>
@@ -226,7 +227,7 @@
                                     <div class="card-body">
                                        <h5 class="card-title d-flex justify-content-between">
                                           <span>Te Dhenat Personale</span>
-                                          <a class="edit-link" href="{% url 'update-profile' user.id %}"><i class="far fa-edit me-1"></i>Modifiko te dhenat</a>
+                                          <a class="edit-link" href="{% url 'update-partner-profile' user.id %}"><i class="far fa-edit me-1"></i>Modifiko te dhenat</a>
                                        </h5>
                                        <div class="row">
                                           <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Emri</p>

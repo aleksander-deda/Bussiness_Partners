@@ -76,6 +76,7 @@
                         {% endif %}
                     </div>
                     <a class="dropdown-item" href="{% url 'myprofile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'change-partner-password' user.id %}">Ndrysho fjalekalimin</a>
                     <a class="dropdown-item" href="#">Mesazhe</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>
@@ -161,7 +162,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{% url 'update-profile' user.id %}" method="POST">
+                            <form action="{% url 'update-partner-profile' user.id %}" method="POST">
                                 {% csrf_token %}
                                  <div class="row">
                                     <div class="col-12">
@@ -173,13 +174,6 @@
                                             <input class="form-control" value="{{user.username }}" required type="text" name="username">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-6">
-                                        <div class="form-group" style="padding-top: 6px">
-                                            <label>Password</label>
-                                            <input class="form-control"  type="password" name="password" placeholder="vendosni fjalekalimin e ri">
-                                        </div>
-                                    </div>
-                                   
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group" style="padding-top: 6px">
                                             <label>Email</label>
