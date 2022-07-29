@@ -58,7 +58,7 @@
             <li class="nav-item dropdown has-arrow">
                 <a class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">
                    <span class="user-img">
-                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/logo/dk-photography-logo.png' %}"
+                        <img alt="Ryan Taylor" class="rounded-circle" src="{% static 'assets/img/profiles/user_profile.webp' %}"
                              width="31">
                    </span>
                 </a>
@@ -66,7 +66,7 @@
                     <div class="user-header">
                         <div class="avatar avatar-sm">
                             <img alt="User Image" class="avatar-img rounded-circle"
-                                 src="{% static 'assets/img/logo/dk-photography-logo.png' %}">
+                                 src="{% static 'assets/img/profiles/user_profile.webp' %}">
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="user-text">
@@ -152,7 +152,7 @@
                     <div class="col">
                         <h3 class="page-title">Përditëso Të Dhënat Personale</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'myprofile' %}">Profili</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'partner-profile' %}">Profili</a></li>
                             <li class="breadcrumb-item active">Përditëso  të dhënat</li>
                         </ul>
                     </div>

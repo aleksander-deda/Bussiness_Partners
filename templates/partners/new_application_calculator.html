@@ -294,7 +294,7 @@
                                                         href="{% url 'new-application' %}">Kthehu Mbrapa</a>
                                                         
                                                         <button id="confirmation_button" class="btn btn-primary" type="submit"
-                                                            >Llogarit</button>
+                                                            ><i class="fa fa-calculator"></i> Llogarit</button>
                                                     </div>
                                                     
                                                 </div>
@@ -331,8 +331,9 @@
     }
     else{
         btn.className ='btn btn-primary'
-        btn.innerText = "Llogarit";
+        // btn.innerText = "Llogarit";
         btn.style.fontSize = '1rem';
+        btn.innerHTML = '<i class="fa fa-calculator"></i> Llogarit'
         
     }};
     </script>
