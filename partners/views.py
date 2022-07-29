@@ -1,3 +1,4 @@
+from hashlib import new
 from multiprocessing import context
 from django.shortcuts import render, redirect
 from .models import Customer, Partner, PartnerProduct, LoanConfig
@@ -8,7 +9,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView
-from .forms import PartnerForm
+from .forms import PartnerForm, UserForm
 import datetime
 from django.contrib import messages
 
@@ -34,6 +35,36 @@ class MyProfile( DetailView):
         return partner
     
 
+def change_password(request, id):
+    user = User.objects.get(id=id)
+    member = Member.objects.filter(user_id=user).first()
+    partner = Partner.objects.filter(member_id=member).first()
+    
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=request.user)
+        print("form: ", form)
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        print(old_password)
+        print(new_password)
+        
+        if form.is_valid():
+            print("hello")
+            user.set_password(new_password)
+            user.save()
+            print(user.password)
+            
+            return redirect('login')
+        
+        else:
+            messages.error(request, "Fjalëkalimi i ri duhet të jetë i njëjtë me fjalëkalimin e konfirmimit")
+    else:
+        form = UserForm()
+
+    return render(request, 'partners/change_password.html', context={'form': form, 'user': user})
+
+
+
 def profile_update(request, id):
     user = User.objects.get(id=id)
     member = Member.objects.filter(user_id=user).first()
@@ -42,13 +73,11 @@ def profile_update(request, id):
     if request.method == 'POST':
         form = PartnerForm(request.POST, instance=request.user)
         username = request.POST.get('username')
-        password = request.POST.get('password')
         email = request.POST.get('email')
         nr_tel = request.POST.get('nr_tel')
 
         if form.is_valid():
             user.username=username
-            user.set_password(password)
             user.email=email
             user.save()
             
@@ -57,8 +86,10 @@ def profile_update(request, id):
 
             partner.nr_tel=nr_tel
             partner.save()
-           
-        return redirect('login')
+            return redirect('myprofile')
+        
+        else:
+            messages.error(request, "Ju lutemi vendosni te dhenat e sakta")
     
     else:
         form = PartnerForm()
