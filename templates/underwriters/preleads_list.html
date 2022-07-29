@@ -65,7 +65,8 @@
                             <p class="text-muted mb-0">UnderWriter</p>
                         </div>
                     </div>
-                    <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'uw-profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'change-uw-password' user.id %}">Ndrysho fjalekalimin</a>
                     <a class="dropdown-item" href="#">Njoftime</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>

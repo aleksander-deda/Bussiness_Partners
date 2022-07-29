@@ -78,7 +78,8 @@
                         </div>
                         {% endif %}
                     </div>
-                    <a class="dropdown-item" href="{% url 'my-profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'uw-profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'change-uw-password' user.id %}">Ndrysho fjalekalimin</a>
                     <a class="dropdown-item" href="#">Mesazhe</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>
@@ -109,7 +110,7 @@
                               <a href="{% url 'prelead-list' %}">Lista e Aplikimeve</a>
                           </li>
                       </ul>
-                  </li>
+                    </li>
                 </ul>
             </div>
         </div>
