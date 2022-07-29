@@ -66,7 +66,8 @@
                         </div>
                         {% endif %}
                     </div>
-                    <a class="dropdown-item" href="{% url 'my_profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'am-profile' %}">Profili</a>
+                    <a class="dropdown-item" href="{% url 'change-am-password' user.id %}">Ndrysho fjalekalimin</a>
                     <a class="dropdown-item" href="#">Njoftime</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Dil</a>
                 </div>
