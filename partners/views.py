@@ -86,7 +86,7 @@ def profile_update(request, id):
 
             partner.nr_tel=nr_tel
             partner.save()
-            return redirect('myprofile')
+            return redirect('partner-profile')
         
         else:
             messages.error(request, "Ju lutemi vendosni te dhenat e sakta")
