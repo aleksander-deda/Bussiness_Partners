@@ -106,8 +106,69 @@
             </div>
         </div>
     </div>
+    
     <div class="page-wrapper">
         <div class="content container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action= "{% url 'prelead-list' %}" method="POST">
+                                {% csrf_token %}
+                                 <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="form-title"><span>Informacioni per te Eksportuar Te Dhenat</span></h5>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group" style="padding-top: 6px">
+                                            <label>Data e Fillimit</label>
+                                            <input type="date" class="form-control"
+                                                            value="{{filters.start_date}}"
+                                                            name="start_date" 
+                                                            id="startdate" 
+                                                            placeholder="data e fillimit" 
+                                                            style="width:70%; height:auto; "
+                                                            required
+                                                        >
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group" style="padding-top: 6px">
+                                            <label>Data e Mbarimit </label>
+                                            <input type="date" class="form-control"
+                                                            value="{{filters.end_date}}"
+                                                            name="end_date" 
+                                                            id="enddate" 
+                                                            placeholder="data e mbarimit" 
+                                                            style="width:70%; height:auto; "
+                                                            required
+                                                        >
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <select id="sort-item" class="form-control form-select" name="status_id" required>
+                                                <option>Zgjidh Statusin e Aplikimit</option> 
+                                                    <option id="1" value="Pending" >Pending</option>
+                                                    <option id="2" value="Approved" >Approved</option>
+                                                    <option id="3" value="Rejected" >Rejected</option> 
+                                            </select>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12" align="right">
+                                            <button class="btn btn-primary" type="submit" name="search_prelead">
+                                                <i class="fas fa-search"></i> Kërko
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
@@ -118,7 +179,7 @@
                         </ul>
                     </div>
                     <div class="col-auto text-end float-end ms-auto">
-                        <a class="btn btn-outline-primary me-2" href="#"><i class="fas fa-download"></i> Shkarko</a>
+                        <a class="btn btn-outline-primary me-2" href="#"><i class="fas fa-download"></i> Eksporto te Dhenat</a>
                         <a class="btn btn-primary" href="#"> <i class="fas fa-plus"></i></a>
                     </div>
                 </div>
@@ -131,6 +192,9 @@
                                 <table class="table table-hover table-center mb-0 datatable">
                                     <thead style="text-align: center; background-color: #ebebff ">
                                     <tr class="text-center">
+                                        {%if search_prelead  %}
+                                        <p> Hello World</p>
+                                        {% endif %}
                                         <th class="text-center">Nr.</th>
                                         <th class="text-center">Data</th>
                                         <th class="text-center">Tipi i Partnerit</th>

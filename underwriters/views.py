@@ -7,6 +7,8 @@ from partners.models import Partner
 from django.contrib.auth.models import User
 from .forms import UnderWriterForm, UserForm
 from django.contrib import messages 
+import xlwt
+from django.http import HttpResponse
 
 
 # @login_required(login_url='login')
@@ -85,11 +87,47 @@ def change_password(request, id):
 
     
 def preleads_list(request):
-    user = User.objects.get(id=request.user.id)
-    member = Member.objects.filter(user_id=user).first()
-    partner = Partner.objects.filter(member_id=member).first()
     preleads = Prelead.objects.all()
+    search_prelead = ""
+    filters = {}
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Prelead-Datas.xls"'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("sheet1")
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Data', 'Tipi i Partnerit', 'Partneri', 'Emri', 'Mbiemri', 'Nr.ID', 'Shuma e Aplikuar', 'Shitesi', 'Nr Shitesi', 'Consent BOA', 'Statusi i Aplikimit', 'Statusi i Kontrates', 'Shuma e Aprovuar' ]
     
-    return render (request, 'underwriters/preleads_list.html', {'preleads': preleads})
+    if request.method =="POST":
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        selected_status = request.POST.get('status_id')
+        search_prelead = request.POST.get('search_prelead')
+        print('start_date: ', start_date)
+        print('end_date: ', end_date)
+        print('selected_status:', selected_status)
+        print('search_prelead:', search_prelead)
+        
+        filters = {
+            'start_date': start_date,
+            'end_date': end_date,
+            'selected_status': selected_status,
+        }
+        if start_date is not None and end_date is not None and selected_status is not None and selected_status is not None:
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+                
+            preleads = Prelead.objects.filter(created_date__gte=start_date, created_date__lte=end_date, application_status=selected_status)
+
+
+    context = {
+        'preleads': preleads, 
+        'filters': filters,
+        'search_prelead': search_prelead,
+        }
+    
+    return render (request, 'underwriters/preleads_list.html', context)
+
 
 
