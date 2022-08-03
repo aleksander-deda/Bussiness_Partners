@@ -148,11 +148,20 @@
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <select id="sort-item" class="form-control form-select" name="status_id" required>
+                                            <select id="sort-item"  class="form-control form-select" name="status_id" required>
                                                 <option>Zgjidh Statusin e Aplikimit</option> 
-                                                    <option id="1" value="Pending" >Pending</option>
-                                                    <option id="2" value="Approved" >Approved</option>
-                                                    <option id="3" value="Rejected" >Rejected</option> 
+                                                    <option id="1" value="Pending" 
+                                                    {% if  'Pending'|slugify == filters.selected_status|slugify %} selected {% endif %}>
+                                                    Pending
+                                                </option>
+                                                    <option id="2" value="Approved" 
+                                                    {% if  'Approved'|slugify == filters.selected_status|slugify %} selected {% endif %}>
+                                                    Approved
+                                                </option>
+                                                    <option id="3" value="Rejected" 
+                                                    {% if  'Rejected'|slugify == filters.selected_status|slugify %} selected {% endif %}>
+                                                    Rejected
+                                                </option> 
                                             </select>
                                           </div>
                                     </div>

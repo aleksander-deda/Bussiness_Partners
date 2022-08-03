@@ -114,13 +114,20 @@ def preleads_list(request):
             'end_date': end_date,
             'selected_status': selected_status,
         }
-        if start_date is not None and end_date is not None and selected_status is not None and selected_status is not None:
+        if start_date is not None and end_date is not None and selected_status is not None:
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
                 
-            preleads = Prelead.objects.filter(created_date__gte=start_date, created_date__lte=end_date, application_status=selected_status)
+            preleads = Prelead.objects.filter(created_date__gte=start_date, created_date__lte=end_date, 
+            application_status=selected_status).values_list('created_date', 'partner_channel', 'product__partner__name','customer__first_name','customer__last_name','customer__personal_id','applied_amount','seller_name','seller_phone','customer__consent_boa','application_status','contract_status','approved_amount' )
+            for prelead in preleads:
+                row_num +=1
+                for col_num in range(len(prelead)):
+                    ws.write(row_num, col_num, prelead[col_num])
 
-
+            wb.save(response)
+            return response
+    
     context = {
         'preleads': preleads, 
         'filters': filters,
